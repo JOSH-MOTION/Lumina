@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ShoppingBag, Search, ChevronDown, User, Menu, X } from 'lucide-react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 import { useCart } from './CartContext';
 
@@ -9,7 +9,10 @@ export default function Navbar() {
   const { isLoggedIn, user, logout, requireAuth } = useAuth();
   const { cartCount } = useCart();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const location = useLocation();
+  const navigate = useNavigate();
 
   const navLinks = [
     { name: 'Home', path: '/' },
@@ -39,7 +42,10 @@ export default function Navbar() {
         </div>
 
         <div className="flex items-center gap-2 md:gap-6">
-          <button className="p-2 hover:bg-slate-50 rounded-full transition-colors text-slate-500">
+          <button 
+            onClick={() => setIsSearchOpen(true)}
+            className="p-2 hover:bg-slate-50 rounded-full transition-colors text-slate-500"
+          >
             <Search className="w-5 h-5" />
           </button>
           
@@ -115,6 +121,65 @@ export default function Navbar() {
                 </button>
               )}
             </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Search Modal */}
+      <AnimatePresence>
+        {isSearchOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm"
+            onClick={() => setIsSearchOpen(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              className="absolute top-20 left-4 right-4 bg-white rounded-2xl shadow-2xl p-6"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center gap-4">
+                <Search className="w-5 h-5 text-slate-400" />
+                <input
+                  type="text"
+                  placeholder="Search for products..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter' && searchQuery.trim()) {
+                      navigate(`/products?search=${encodeURIComponent(searchQuery.trim())}`);
+                      setIsSearchOpen(false);
+                      setSearchQuery('');
+                    }
+                  }}
+                  className="flex-1 bg-transparent border-none outline-none text-lg placeholder:text-slate-400"
+                  autoFocus
+                />
+                <button
+                  onClick={() => setIsSearchOpen(false)}
+                  className="p-2 hover:bg-slate-50 rounded-full transition-colors"
+                >
+                  <X className="w-5 h-5 text-slate-500" />
+                </button>
+              </div>
+              
+              {searchQuery.trim() && (
+                <button
+                  onClick={() => {
+                    navigate(`/products?search=${encodeURIComponent(searchQuery.trim())}`);
+                    setIsSearchOpen(false);
+                    setSearchQuery('');
+                  }}
+                  className="mt-4 w-full bg-black text-white py-3 rounded-xl font-medium hover:bg-slate-800 transition-colors"
+                >
+                  Search "{searchQuery.trim()}"
+                </button>
+              )}
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

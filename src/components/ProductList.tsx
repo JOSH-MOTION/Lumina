@@ -2,15 +2,40 @@ import { motion } from 'motion/react';
 import { Search } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { products } from '../data/products';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useAuth } from './AuthContext';
 
 const filters = ['All', 'Technology', 'Computers', 'Gear', 'Audio'];
 
-export default function ProductList() {
+interface ProductListProps {
+  searchQuery?: string | null;
+}
+
+export default function ProductList({ searchQuery }: ProductListProps) {
   const [activeFilter, setActiveFilter] = useState('All');
   const navigate = useNavigate();
   const { requireAuth } = useAuth();
+
+  // Filter products based on search query and active filter
+  const filteredProducts = useMemo(() => {
+    let filtered = products;
+    
+    // Filter by search query
+    if (searchQuery) {
+      filtered = filtered.filter(product =>
+        product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.description.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+    
+    // Filter by category
+    if (activeFilter !== 'All') {
+      filtered = filtered.filter(product => product.category === activeFilter);
+    }
+    
+    return filtered;
+  }, [searchQuery, activeFilter]);
 
   return (
     <section className="py-24 px-6">
@@ -45,9 +70,7 @@ export default function ProductList() {
 
         {/* Product Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-16">
-          {products
-            .filter(p => activeFilter === 'All' || p.category === activeFilter)
-            .map((product) => (
+          {filteredProducts.map((product) => (
               <div 
                 key={product.id} 
                 onClick={() => requireAuth(() => navigate(`/products/${product.id}`))}

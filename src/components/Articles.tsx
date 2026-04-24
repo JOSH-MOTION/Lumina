@@ -5,23 +5,23 @@ export default function Articles() {
     {
       id: 1,
       title: "How to create the perfect work from home setup",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum.",
+      description: "Discover the essential tools and tips to optimize your remote workspace for maximum productivity and comfort.",
       category: "Ideas",
       date: "August 31, 2022",
-      image: "https://images.unsplash.com/photo-1512941937309-5f591e5e4c54?q=80&w=800&h=400&fit=crop&grayscale"
+      image: "https://images.unsplash.com/photo-1512941937309-5f591e5e4c54?q=80&w=800"
     },
     {
       id: 2,
       title: "Alexa vs Siri vs Google Home: Which smart assistant is the best?",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum.",
+      description: "Compare the top smart home assistants to find the perfect voice companion for your smart home ecosystem.",
       category: "Tutorials",
       date: "August 31, 2022",
-      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=800&h=400&fit=crop"
+      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=800"
     }
   ];
 
   return (
-    <section className="py-20 px-6 bg-white">
+    <section className="py-16 px-6 bg-white">
       <div className="max-w-7xl mx-auto space-y-12">
         <div className="flex items-center justify-between">
           <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-slate-900 font-display">
@@ -35,7 +35,7 @@ export default function Articles() {
           </Link>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
+        <div className="grid md:grid-cols-2 gap-8">
           {articles.map((article) => (
             <Link 
               key={article.id}
@@ -58,7 +58,7 @@ export default function Articles() {
                   {article.description}
                 </p>
                 <div className="flex items-center justify-between">
-                  <span className="px-3 py-1 bg-black text-white text-xs font-bold rounded-full">
+                  <span className="px-3 py-1 bg-slate-900 text-white text-xs font-bold rounded-full">
                     {article.category}
                   </span>
                   <span className="text-sm text-slate-500">

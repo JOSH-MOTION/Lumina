@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, Loader2 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { auth, db } from '../firebase';
 import { 
   signInWithEmailAndPassword, 
