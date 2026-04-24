@@ -3,15 +3,15 @@ import { getAuth } from "firebase/auth";
 import { getAnalytics } from "firebase/analytics";
 import { getFirestore } from "firebase/firestore";
 
-// Your web app's Firebase configuration
+// Your web app's Firebase configuration using environment variables
 const firebaseConfig = {
-  apiKey: "AIzaSyAPkRKL_BtKDScV48frURqLqJpatsRWRUA",
-  authDomain: "photomobi-7fad4.firebaseapp.com",
-  projectId: "photomobi-7fad4",
-  storageBucket: "photomobi-7fad4.firebasestorage.app",
-  messagingSenderId: "148055284050",
-  appId: "1:148055284050:web:6d60920ba0cd976401428b",
-  measurementId: "G-TMR6CHEEVD"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
 // Initialize Firebase
